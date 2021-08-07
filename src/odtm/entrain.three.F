@@ -50,6 +50,7 @@ c
          we(i,j,k+1) =  we(i,j,k+1) + rkmh(i,j)*(hd(k)-h(i,j,k,taun))**2
      &           /(hd(k)*td)
 
+	 we(i,j,km) = 0.0
         endif
 
         enddo

@@ -49,3 +49,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 	relax_East = 1.0	  ! If 1.0 the eastern boundary temp and salt
 				  ! relaxes linearly to observations
 	widE = 3.0                ! to a width of widS grid thickness
+
+	entr_mom = 0.0		  ! to switch on and off entrainment/detrainment
+				  ! of momentum due to we and wd

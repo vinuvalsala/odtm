@@ -37,7 +37,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         real :: tracedvbdy, tracedubdx, rtemp1, rtemp2, rtemp3, rtemp4, rtemp5, rtemp6
         real :: tempout, saltout, hstart, hend, zero_out_tradv
         real :: relax_on_off, alpha_rgm, alpha_rgt, beta_mldm, beta_mldt, gama, rdrag
-        real :: relax_South, widS, relax_East, widE
+        real :: relax_South, widS, relax_East, widE, entr_mom
         integer :: irepeat, kmax, kk
 
         do nt = 1,nn
@@ -52,7 +52,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
         zero_out_tradv = 1.0
 
-        if (rgm_zero_tracer_adv) then
+c        if (rgm_zero_tracer_adv) then
             hstart = 0
             kmax = kmaxMYM
             do irepeat = 1,k-1
@@ -64,12 +64,12 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
             if (hend .le. 5.0*kmax) then 
                 zero_out_tradv = 0.0
             endif
-        endif
+c        endif
 
 	tracedubdx = 0.0
 	tracedvbdy = 0.0
 	
-        if (zero_out_tradv == 1.0) then
+c        if (zero_out_tradv == 1.0) then
 	rtemp1 = sum_2ptr (1,ip,j,i,j,nt) /
      &                           sum_2ptr (11,ip,j,i,j,nt)
 	rtemp2 = sum_2ptr (1,im,j,i,j,nt) /
@@ -86,7 +86,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 	tracedvbdy = ( rtemp3 - rtemp4 )* (sum_2pt (2,i,jp,i,j)/
      &                              sum_2pt (21,i,jp,i,j) ) * rdyh(i,j) 
 
-        endif
+c        endif
 
 
 

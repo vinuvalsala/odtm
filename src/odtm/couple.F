@@ -49,7 +49,7 @@
 
         real :: diffuse_temp, diffuse_salt, rtheta_vu, rtheta_vd
         real :: relax_on_off, gama, diffuse_MY, diffuse_tr
-        real :: relax_south, widS, relax_East, widE, rdrag
+        real :: relax_south, widS, relax_East, widE, rdrag, entr_mom
         real :: rtemp1, rtemp2, rtemp3, rtemp4
         integer :: hstart, hend, ii, jj, kk, tau_index
         integer :: im, jm, irepeat, nt, ip, jp, kmax

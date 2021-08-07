@@ -107,6 +107,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         real :: gama, alpha_rgm, alpha_rgt, beta_mldm, beta_mldt
         integer :: icount, irepeat, kkk
         real :: rdiv, rdrag, relax_East, relax_South, relax_on_off, rsum, widE, widS
+	real :: entr_mom
 
         gama = 1.0
 

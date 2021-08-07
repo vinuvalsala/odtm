@@ -65,7 +65,7 @@
 	advec_vu = (rtemp4*rUp - rtemp8*rDw)*rdyu(i,j)*rdxu(i,j)
 
 	
-	rtemp1 = u(i,j,k,taun) * rdxu(i,j) * rdyu(i,j)
+	rtemp1 = u(i,j,k,taun) !* rdxu(i,j) * rdyu(i,j)
 	rtemp2 = sum_4pt (2,i,j,i,jp,im,jp,im,j)/
      &           sum_4pt (21,i,j,i,jp,im,jp,im,j)
 	rtemp3 = sum_2pt (3,i,j,im,j) /sum_2pt (31,i,j,im,j)
@@ -114,7 +114,7 @@
 
 	rtemp1 = sum_4pt (1,i,j,ip,j,ip,jm,i,jm)/
      &           sum_4pt (11,i,j,ip,j,ip,jm,i,jm)
-	rtemp2 = v(i,j,k,taun) * rdyv(i,j) * rdxv(i,j)
+	rtemp2 = v(i,j,k,taun) !* rdyv(i,j) * rdxv(i,j)
 	rtemp3 = sum_2pt (3,i,j,i,jm) /sum_2pt (31,i,j,i,jm)
 	rtemp4 = (rtemp1*rtemp1 - rtemp2*rtemp2) * rtemp3
 

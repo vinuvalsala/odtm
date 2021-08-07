@@ -10,10 +10,13 @@
      &     entr_flux, speed, pme_eps, rvr_runoff,
      &     diag1, diag2, diag3, diag4, diag5, diag6,ii,jj)
 
-        implicit none
  
 ! ONE DIMENSIONAL MIXED LAYER MODEL
 !      DIMENSION UN(51),VN(51),TEN(51),SAN(51),
+	 use size_mod, only : loop
+	 use param_mod, only : day2sec
+        implicit none
+	logical :: linear_switch
       real UN(51),VN(51),TEN(51),SAN(51),
      1 U1(0:51),V1(0:51),TE1(0:51),SA1(0:51),Z(51),Z1(51),
      2 rQ(51),SM(51),SH(51),R(51),YQ(51),SM1(51),SH1(51)
@@ -89,7 +92,7 @@
         ic(1) = int(abs(maxval(we_prof)*1e5 )/ 10)
         ic(2) = int(abs(minval(we_prof)*1e5 )/ 10)
         icval = max(1,maxval(ic))
-        DT=dt_rg/10/icval
+        DT=dt_rg/(10*icval)
       nloop=dt_rg/DT
       DTZ=DT/DZZ
 ! WATER DENSITY
@@ -286,6 +289,7 @@
         TEN(M) = TEN(M) - (we_baro*TE1(M-1) - we_baro*TE1(M+1))*DT/DZ2
         SAN(M) = SAN(M) - (we_baro*SA1(M-1) - we_baro*SA1(M+1))*DT/DZ2
    61 CONTINUE
+	
 !        UN(1) = UN(1) + TX*1.0*DT/DZ
 !        UN(1) = UN(1) + TX*1.0*DT/DZ
 !        VN(1) = VN(1) + TY*1.0*DT/DZ ! PREVIOUSLY IT WAS UN(M)
@@ -353,8 +357,17 @@
 
 !      WRITE(6,102) (100.0*SM(1))!,M=1,11,1)
 !      WRITE(6,102) (100.0*SH(1))!,M=1,11,1)
+
+	linear_switch = mod(loop,int(day2sec/dt_rg)*1)==0
       
-          DO M=1,NAZ
+	if (linear_switch) then
+	call shapiro(NAZ1, TEN)	
+	call shapiro(NAZ1, SAN)	
+	call shapiro(NAZ1, UN)	
+	call shapiro(NAZ1, VN)	
+	endif
+
+        DO M=1,NAZ
         tempin(M) = TEN(M)
         saltin(M) = SAN(M)
         uvelin(M) = UN(M)

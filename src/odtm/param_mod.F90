@@ -53,7 +53,7 @@ module param_mod
     real :: diffuse_tr = 7.5e2
 
     real, parameter :: te = day2sec*0.20
-    real, parameter :: td = day2sec*30
+    real, parameter :: td = day2sec*0.20
 
 	real :: polar_u, polar_v
 

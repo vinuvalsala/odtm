@@ -264,19 +264,19 @@ module size_mod
         he(6) = 1000
 
 ! hd is the ht of layer, h>=hd- detrainment present
-        hd(1) = 300.0 ! what is hd?
-        hd(2) = 300.0
-        hd(3) = 300.0
-        hd(4) = 800.0
-        hd(5) =1000.0
+        hd(1) = 3*dz(1) ! what is hd?
+        hd(2) = 3*dz(2)
+        hd(3) = 3*dz(3)
+        hd(4) = 3*dz(4)
+        hd(5) = 3*dz(5)
 
 
-        dz_max(1) = 3*dz(1) ! what is dz_max?
-        dz_max(2) = 3*dz(2)
-        dz_max(3) = 3*dz(3)
-        dz_max(4) = 3*dz(4)
-        dz_max(5) = 3*dz(5)
-        dz_max(6) = 3*dz(6)
+        dz_max(1) = 30*dz(1) ! what is dz_max?
+        dz_max(2) = 30*dz(2)
+        dz_max(3) = 30*dz(3)
+        dz_max(4) = 30*dz(4)
+        dz_max(5) = 30*dz(5)
+        dz_max(6) = 30*dz(6)
 
         dz_min(1) = 10
         dz_min(2) = 10

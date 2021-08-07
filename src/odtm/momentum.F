@@ -41,7 +41,13 @@
         real :: relaxterm_u2, relaxterm_u3, relaxterm_v2, relaxterm_v3
         real :: rH1, rtemp2, rKE, rpert, rPE
         real :: taux_1, tauy_1
+	real :: relax_on_off, alpha_rgm, alpha_rgt, beta_mldm
+        real :: beta_mldt, gama, rdrag, relax_South
+        real :: widS, relax_East, widE, entr_mom
+
 	
+#include "cparam.h"
+
 	ip = i + 1
 	im = i - 1
 	jp = j + 1
@@ -115,8 +121,8 @@ c	 endif
          sst_in = temp(i,j,1,1) ! temperature of first layer
          call heat_flux(sphm_in,airt_in,sst_in,uwndin,vwndin,cldin,qnet_in,
      &   qs, ql, qb, tx, ty, Lv)
-	taux_1 = (tx / rho(1)  ) * (1 - mod(loop,2)) 
-	tauy_1 = (ty / rho(1)  ) * (1 - mod(loop,2)) 
+	taux_1 = (tx / rho(1)  )  !* (1 - mod(loop,2)) 
+	tauy_1 = (ty / rho(1)  )  !* (1 - mod(loop,2)) 
 #endif
 
 
@@ -204,8 +210,8 @@ c	 endif
      &    + polar_u
 #endif
 #ifdef entrain
-     &    - 0.5*(wd(i,j,k)+wd(im,j,k))*u(i,j,k,taun)
-     &    - 0.5*(we(i,j,k)+we(im,j,k))*u(i,j,k,taun)
+     &    - 0.5*(wd(i,j,k)+wd(im,j,k))*u(i,j,k,taun) * entr_mom 
+     &    - 0.5*(we(i,j,k)+we(im,j,k))*u(i,j,k,taun) * entr_mom
 #endif
 #ifdef constant_laplacian
      &    + diffuse_uu
@@ -386,7 +392,7 @@ c	 endif
             integer, intent(in) :: ind_drag
             real :: relax_on_off, alpha_rgm, alpha_rgt, beta_mldm
             real :: beta_mldt, gama, rdrag, relax_South
-            real :: widS, relax_East, widE
+            real :: widS, relax_East, widE, entr_mom
 
 #include "cparam.h"
 
