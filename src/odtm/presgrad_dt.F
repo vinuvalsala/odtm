@@ -131,14 +131,14 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         rho_kk = min(rho_2pt (i,j,kk), rho_km)
         rtemp1 = sum_2pt_kdep (3,i,j,im,j,kk) /sum_2pt_kdep(31,i,j,im,j,kk)
         if (rho_km .lt. 1000.0 .or. rho_kk .lt. 1000.0) rwall = 0.0
-	rpvsum = rpvsum + 20.0*abs((rtemp1 - dz(kk)))/(dz(kk)**2)
+	rpvsum = rpvsum + 1.0*abs((rtemp1 - dz(kk)))/(dz(kk)**2)
         rsum1 = ((rho_km - rho_kk )/rho_km)   - 
-     &          ((rho_km - rho_kk )/rho_km) * 20.0*abs((rtemp1 - dz(kk)))/(dz(kk)**2)
+     &          ((rho_km - rho_kk )/rho_km) * 1.0*abs((rtemp1 - dz(kk)))/(dz(kk)**2)
         rho_km = rho_2pt (im,j,km)
         rho_kk = min(rho_2pt (im,j,kk), rho_km)
         if (rho_km .lt. 1000.0 .or. rho_kk .lt. 1000.0) rwall = 0.0
         rsum2 = ((rho_km - rho_kk )/rho_km)   -
-     &          ((rho_km - rho_kk )/rho_km) * 20.0*abs((rtemp1 - dz(kk)))/(dz(kk)**2)
+     &          ((rho_km - rho_kk )/rho_km) * 1.0*abs((rtemp1 - dz(kk)))/(dz(kk)**2)
         rsum = rsum + rtemp1*(rsum1 - rsum2)*rdxu(i,j)
         if (rsum1 .eq. 0.0 .or. rsum2 .eq. 0.0) rsum = 0
         enddo
@@ -157,12 +157,12 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         rtemp1 = sum_2pt_kdep (3,i,j,i,jm,kk) /sum_2pt_kdep(31,i,j,i,jm,kk)
         if (rho_km .lt. 1000.0 .or. rho_kk .lt. 1000.0) rwall = 0.0
         rsum1 = ((rho_km - rho_kk )/rho_km)   -
-     &          ((rho_km - rho_kk )/rho_km) * 20.0*abs((rtemp1 - dz(kk)))/(dz(kk)**2)
+     &          ((rho_km - rho_kk )/rho_km) * 1.0*abs((rtemp1 - dz(kk)))/(dz(kk)**2)
         rho_km = rho_2pt (i,jm,km)
         rho_kk = min(rho_2pt (i,jm,kk), rho_km)
         if (rho_km .lt. 1000.0 .or. rho_kk .lt. 1000.0) rwall = 0.0
         rsum2 = ((rho_km - rho_kk )/rho_km)   -
-     &          ((rho_km - rho_kk )/rho_km) * 20.0*abs((rtemp1 - dz(kk)))/(dz(kk)**2)
+     &          ((rho_km - rho_kk )/rho_km) * 1.0*abs((rtemp1 - dz(kk)))/(dz(kk)**2)
         rsum = rsum + rtemp1*(rsum1 - rsum2)*rdyv(i,j)
         if (rsum1 .eq. 0.0 .or. rsum2 .eq. 0.0) rsum = 0
         enddo
