@@ -24,6 +24,7 @@ module filter_mod
         integer :: imte, imts, jjj, jmte, jmts, ncount
         real :: t_switch, vel_lim(km)
         logical :: lmask(isd:ied,jsd:jed,km-1), linear_switch
+	logical :: lmaskMYM(isd:ied,jsd:jed,kmaxMYM)
 
         vel_lim(1:km) = 1.   
  
@@ -32,6 +33,7 @@ module filter_mod
         linear_switch = mod(loop,int(day2sec/dt)*10)==0
 
         lmask = .true.
+        lmaskMYM = .true.
         if (.not.linear_switch) then
             lmask = .false.
             do kk = 1, km-1 
@@ -60,10 +62,10 @@ module filter_mod
         if (linear_switch ) then
             call mpp_update_domains(temp(:,:,1:kmaxMYM,1),domain)
             call mpp_update_domains(salt(:,:,1:kmaxMYM,1),domain)
-            call smooth_hanning(temp(:,:,1:kmaxMYM,1),dmask=rkmh,area=dah)
-            call smooth_hanning(salt(:,:,1:kmaxMYM,1),dmask=rkmh,area=dah)
+            call smooth_hanning(temp(:,:,1:kmaxMYM,1),dmask=rkmh,mask=lmaskMYM,area=dah)
+            call smooth_hanning(salt(:,:,1:kmaxMYM,1),dmask=rkmh,mask=lmaskMYM,area=dah)
         endif
-        ! Added by Vinu 29-05-2018
+       ! Added by Vinu 29-05-2018
 #endif
     
         do i=isc, iec
@@ -182,20 +184,22 @@ module filter_mod
             do j = js, je
                 jm = j - 1; jp = j + 1
 
-                rdiv1 = dmask(im,j)+dmask(ip,j)+dmask(i,jm)+dmask(i,jp)
-                rdiv2 = dmask(im,jm)+dmask(ip,jm)+dmask(im,jp)+dmask(ip,jp)
+                rdiv1 = dmask(im,j)*area(im,j)+dmask(ip,j)*area(ip,j)+ &
+                        dmask(i,jm)*area(i,jm)+dmask(i,jp)*area(i,jp)
+                rdiv2 = dmask(im,jm)*area(im,jm)+dmask(ip,jm)*area(ip,jm)+ &
+                        dmask(im,jp)*area(im,jp)+dmask(ip,jp)*area(ip,jp)
 
                 do k = ks, ke   
                     if (.not.lmask(i,j,k)) cycle
                     if (dmask(i,j)==0.) cycle
-                    fld(i,j,k) = 0.25 * fld1(i,j,k) &
+                    fld(i,j,k) = 0.25 * fld1(i,j,k)/max(1.0,area(i,j)) &
                                  + 0.5 * ( fld1(im,j,k) + fld1(ip,j,k) &
                                  + fld1(i,jm,k) + fld1(i,jp,k))/max(1.0,rdiv1) &
                                  + 0.25 * (fld1(im,jm,k) + fld1(ip,jm,k) &
                                  + fld1(im,jp,k) + fld1(ip,jp,k))/max(1.0,rdiv2)
 
                     if (present(area)) then
-                        fld(i,j,k) = fld(i,j,k)/area(i,j)
+!                        fld(i,j,k) = fld(i,j,k)/area(i,j)
                     endif
 
                 enddo
