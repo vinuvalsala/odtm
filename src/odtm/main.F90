@@ -257,8 +257,8 @@ program main
 
         call mpp_clock_begin(mld_clk)
         call mixed_layer_physics
-        call mpp_update_domains(uvel(:,:,:,2),domain)
-        call mpp_update_domains(vvel(:,:,:,2),domain)
+!        call mpp_update_domains(uvel(:,:,:,2),domain)  ! Is it required? 10Aug2021
+!        call mpp_update_domains(vvel(:,:,:,2),domain)  ! Is it required? 10Aug2021
         call mpp_clock_end(mld_clk)
 
         call balance_pme()

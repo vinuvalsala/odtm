@@ -87,12 +87,12 @@
       DAY=86400.0
 ! TIME STEP
       !DT=0.02*DAY !now one day run is done in 6 loops 
-      DT=dt_rg/10 ! seconds , same as RG model
+      DT=dt_rg/2 ! seconds , same as RG model
         ic(:) = 1
-        ic(1) = int(abs(maxval(we_prof)*1e5 )/ 10)
-        ic(2) = int(abs(minval(we_prof)*1e5 )/ 10)
+        ic(1) = int(abs(maxval(we_prof)*1e5 )/ 2)
+        ic(2) = int(abs(minval(we_prof)*1e5 )/ 2)
         icval = max(1,maxval(ic))
-        DT=dt_rg/(10*icval)
+        DT=dt_rg/(2*icval)
       nloop=dt_rg/DT
       DTZ=DT/DZZ
 ! WATER DENSITY

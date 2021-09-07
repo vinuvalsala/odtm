@@ -30,7 +30,9 @@ module filter_mod
  
 #ifdef apply_spatial_filter
         
-        linear_switch = mod(loop,int(day2sec/dt)*10)==0
+        linear_switch = mod(loop-1,int(day2sec/dt)*3)==0
+        linear_switch = mod(loop,int(day2sec/dt)*3)==0
+        linear_switch = mod(loop+1,int(day2sec/dt)*3)==0
 
         lmask = .true.
         lmaskMYM = .true.
