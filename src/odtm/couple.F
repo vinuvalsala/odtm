@@ -186,13 +186,13 @@
      &   - (tracedubdxmld(kk,1)
      &   + tracedvbdymld(kk,1)) * dt* beta_mldt * rkmh(i,j)
      &   + diffuse_temp * diffuse_MY * max(rtemp1, rtemp2) * dt * rkmh(i,j)
-     &   -  (temp(i,j,kk,2) -  temp_read(i,j,kk,month)) * dt * sec2day * 0.0
+     &   -  (temp(i,j,kk,2) -  temp_read(i,j,kk,month)) * dt * sec2day * 0.0333
 
          salt(i,j,kk,2) = salt(i,j,kk,2) 
      &   - (tracedubdxmld(kk,2)
      &   + tracedvbdymld(kk,2)) *dt* beta_mldt * rkmh(i,j)
      &   + diffuse_salt * diffuse_MY * max(rtemp1, rtemp2) * dt * rkmh(i,j)
-     &   -  (salt(i,j,kk,2) -  salt_read(i,j,kk,month)) * dt * sec2day * 0.0
+     &   -  (salt(i,j,kk,2) -  salt_read(i,j,kk,month)) * dt * sec2day * 0.0333
 
          uvel(i,j,kk,2) = uvel(i,j,kk,2) 
      &   - (tracedubdxmld(kk,3)

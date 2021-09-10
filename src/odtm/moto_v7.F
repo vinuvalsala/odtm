@@ -324,8 +324,8 @@
         SAN(1)= SAN(1) + ds
         SAN(2)= SAN(2) - rvr_runoff * 35.0*DT/DZ
 
-        DO M=2,NAZ
-        TEN(M)=TEN(M) + (sswin(M-1)-sswin(M+1-1)) * DT/(RO*cp*DZ)
+        DO M=1,NAZ
+        TEN(M)=TEN(M) + (sswin(M)-sswin(M+1)) * DT/(RO*cp*DZ)
         ENDDO
 
         call implicit_vmix (SM, DZ, DT, NAZ1, UN, UN)
