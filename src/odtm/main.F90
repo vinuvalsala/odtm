@@ -49,7 +49,7 @@ program main
     use diag_manager_mod, only : diag_axis_init, send_data, diag_manager_end
     use diag_data_mod, only : FILL_VALUE
     use data_override_mod, only : data_override_init, data_override
-    use time_manager_mod, only : set_calendar_type, NO_CALENDAR, JULIAN, NOLEAP, date_to_string
+    use time_manager_mod, only : set_calendar_type, NO_CALENDAR, JULIAN, NOLEAP, GREGORIAN, date_to_string
     use time_manager_mod, only : time_type, set_time, set_date, operator(+), assignment(=)
     use time_manager_mod, only : print_date, print_time, set_ticks_per_second, increment_date, operator(>=)
 
@@ -324,7 +324,7 @@ program main
         unit = open_file(file='RESTART/._tmp_',action='write')
         call close_file(unit,'delete')
 
-        call set_calendar_type(NOLEAP)
+        call set_calendar_type(GREGORIAN)
 
         time_step = set_time(seconds=int(dt))
 
