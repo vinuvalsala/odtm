@@ -327,7 +327,7 @@
      &    (salt(iip,jj,kk,1) - salt(ii,jj,kk,1) )*rdxu(iip,jj)
         rtemp2 = rkmh(iim,jj)*
      &    (salt(ii,jj,kk,1) - salt(iim,jj,kk,1) )*rdxu(ii,jj)
-        rtemp3 = (rtemp1 - rtemp1)*rdxh(ii,jj)
+        rtemp3 = (rtemp1 - rtemp2)*rdxh(ii,jj)
 
         rtemp4 = rkmh(ii,jjp)*
      &   (salt(ii,jjp,kk,1) - salt(ii,jj,kk,1))*rdyv(ii,jjp)
