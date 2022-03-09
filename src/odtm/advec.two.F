@@ -62,7 +62,11 @@
 
 	rUp = (dxv(im,jp) + dxv(i,jp))*0.5
 	rDw = (dxv(im,j) + dxv(i,j))*0.5
-	advec_vu = (rtemp4*rUp - rtemp8*rDw)*rdyu(i,j)*rdxu(i,j)
+!	advec_vu = (rtemp4*rUp - rtemp8*rDw)*rdyu(i,j)*rdxu(i,j)
+	advec_vu = (rtemp4*rUp - rtemp8*rDw)*rdyu(i,j)*rdxv(i,j)
+! rdxu(i,j) has additional cos(theta) component which is not required
+! it should be rdxv(i,j)
+! 08-Jan-2022, Vinu Valsala
 
 	
 	rtemp1 = u(i,j,k,taun) !* rdxu(i,j) * rdyu(i,j)
@@ -109,7 +113,11 @@
      &           sum_4pt (31,im,j,i,j,i,jm,im,jm)
 	rtemp8 = rtemp5 * rtemp6 * rtemp7
 	
-	advec_uv = (rtemp4 - rtemp8)/ dxv(i,j)
+!	advec_uv = (rtemp4 - rtemp8)/ dxv(i,j)
+	advec_uv = (rtemp4 - rtemp8)*rdxu(i,j)
+! Bug found here. It is second term in Eq-4 of Jensen, 1990 JGR Paper
+! The division should be x-component of grid space, not y component
+! 08-Jan-2022, Vinu Valsala
 
 
 	rtemp1 = sum_4pt (1,i,j,ip,j,ip,jm,i,jm)/

@@ -14,7 +14,7 @@ program main
         taum, taun, taup, taus, time_switch, tracer_switch, iday_wind, rkmh, rkmu, rkmv, rkmt, kclim, &
         imt, jmt, km, gdx, gdy, kmaxMYM, dz, nn, lm, gdxb, gdyb, t, eta, u, v, temp, h, pvort, salt, &
         dxu, dyv, omask, uvel, vvel, smcoeff, SHCoeff, diag_ext1, diag_ext2, diag_ext3, diag_ext4, &
-        diag_ext5, diag_ext6, sphm, uwnd, vwnd, airt, ssw, cld, pme, chl, rvr, taux_force, tauy_force, &
+        diag_ext5, diag_ext6, sphm, uwnd, vwnd, airt, ssw, sfc, vfc, cld, pme, chl, rvr, taux_force, tauy_force, &
         init_size, denss, rmld_misc, rdx, rdy, rkmt, we_upwel, wd, we, pme_corr, temp_read, salt_read, mask
 
     use param_mod, only : day2sec, dpm, dt, dtts, dyd, loop_day, loop_total, nmid, rnmid, sum_adv, deg2rad
@@ -66,7 +66,7 @@ program main
     integer :: id_we, id_dens, id_pvort, id_mask, id_dxu, id_dyv, id_rkmh, id_rkmu, id_rkmv
     integer :: id_temp_mld, id_salt_mld, id_u_mld, id_v_mld, id_diag, id_sh, id_sm
     integer :: id_mld, id_tke, id_rif, id_mlen, id_st_h, id_st_m, id_pme
-    integer :: id_sphm, id_uwnd, id_vwnd, id_ssw, id_cld, id_chl, id_rvr
+    integer :: id_sphm, id_uwnd, id_vwnd, id_ssw, id_sfc, id_vfc, id_cld, id_chl, id_rvr
 
     integer :: init_clk, main_clk, clinic_clk, mld_clk, filter_clk, couple_clk
 
@@ -163,6 +163,14 @@ program main
         call data_override('OCN','ssw',ssw,time,override)
         if (.not.override) call mpp_error(WARNING, 'ssw not overriden')
         used = send_data(id_ssw, ssw, time)
+
+        call data_override('OCN','sfc',sfc,time,override)
+        if (.not.override) call mpp_error(WARNING, 'sfc not overriden')
+        used = send_data(id_sfc, sfc, time)
+
+        call data_override('OCN','vfc',vfc,time,override)
+        if (.not.override) call mpp_error(WARNING, 'vfc not overriden')
+        used = send_data(id_vfc, vfc, time)
 
         call data_override('OCN','cld',cld,time,override)
         if (.not.override) call mpp_error(WARNING, 'cld not overriden')
@@ -429,6 +437,12 @@ program main
 
         id_ssw = register_diag_field('odtm', 'ssw', (/id_lon,id_lat/), init_time=Time, &
                  long_name='?', units='?',missing_value=FILL_VALUE)
+
+        id_sfc = register_diag_field('odtm', 'sfc', (/id_lon,id_lat/), init_time=Time, &
+                 long_name='?', units='?',missing_value=FILL_VALUE)
+        id_vfc = register_diag_field('odtm', 'vfc', (/id_lon,id_lat,id_depth/), init_time=Time, &
+                 long_name='?', units='?',missing_value=FILL_VALUE)
+
 
         id_cld = register_diag_field('odtm', 'cld', (/id_lon,id_lat/), init_time=Time, &
                  long_name='?', units='?',missing_value=FILL_VALUE)

@@ -50,6 +50,7 @@ module size_mod
   real, pointer, dimension(:,:,:) :: SMCoeff => null(), SHCoeff => null()
 
   real, pointer, dimension(:,:,:) :: rmld_misc => null(), denss => null()
+  real, pointer, dimension(:,:,:) :: vfc => null()
 
   real, pointer, dimension(:,:) :: mld_mld => null()
   integer, pointer, dimension(:,:) :: mask => null()
@@ -83,6 +84,7 @@ module size_mod
   real, pointer, dimension(:,:,:) :: taux => null(), tauy => null()
   real, pointer, dimension(:,:) :: taux_force => null(), tauy_force => null()
   real, pointer, dimension(:,:) :: ssw => null()
+  real, pointer, dimension(:,:) :: sfc => null()
   real, pointer, dimension(:,:) :: cld => null()
   real, pointer, dimension(:,:) :: pme => null(), pme_corr => null()
   real, pointer, dimension(:,:) :: chl => null()
@@ -144,6 +146,8 @@ module size_mod
         allocate ( taux(isc:iec,jsc:jec,2), tauy(isc:iec,jsc:jec,2) )
         allocate ( taux_force(isc:iec,jsc:jec), tauy_force(isc:iec,jsc:jec) )
         allocate ( ssw(isc:iec,jsc:jec) )
+        allocate ( sfc(isc:iec,jsc:jec) )
+        allocate ( vfc(isc:iec,jsc:jec,kmaxMYM) )
         allocate ( cld(isc:iec,jsc:jec) )
         allocate ( pme(isc:iec,jsc:jec), pme_corr(isc:iec,jsc:jec) )
         allocate ( chl(isc:iec,jsc:jec) )
@@ -283,6 +287,9 @@ module size_mod
         dz_min(4) = 30
         dz_min(5) = 30
         dz_min(6) = 1000
+
+	sfc(:,:) = 0.0
+	vfc(:,:,:) = 0.0
 
     end subroutine init_size
 

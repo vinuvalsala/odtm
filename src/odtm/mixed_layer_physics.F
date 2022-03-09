@@ -7,7 +7,7 @@ c
 c
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
             use size_mod, only : airt, chl, cld, dzmym, gdy, pme, pme_corr
-            use size_mod, only : rkmh, rvr, salt, sphm, ssw, temp, uvel, uwnd
+            use size_mod, only : rkmh, rvr, salt, sphm, ssw, sfc, vfc, temp, uvel, uwnd
             use size_mod, only : vvel, vwnd, we_baro, we_prof, zdepth, loop
             use size_mod, only : salt_read, SHCoeff, SMCoeff, temp_read, month
             use size_mod, only : diag_ext1, diag_ext2, diag_ext3
@@ -39,6 +39,11 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         real :: rLATMax, rvr_runoff, relax_South, relax_East, relax_on_off
         real :: alpha_rgm, alpha_rgt, beta_mldm, beta_mldt, gama
         real :: rdrag, widS, widE, entr_mom
+	logical :: sfc_switch, vfc_switch
+	sfc_switch = .true.
+	vfc_switch = .true.
+	if (all(sfc == 0.0)) sfc_switch = .false.
+	if (all(vfc == 0.0)) vfc_switch = .false.
         !! Here is the start of Mixed Layer Model
 
 
@@ -110,7 +115,6 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          rvr_runoff = rvr(i,j)
          tauxin = tx
          tauyin = ty
-         qnet_in = qnet_in !* (1 - mod(loop,2))
 
          rmld_misc(i,j,1)  = qnet_in
          rmld_misc(i,j,2)  = ssw(i,j)
