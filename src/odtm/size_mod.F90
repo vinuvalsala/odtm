@@ -37,6 +37,12 @@ module size_mod
   real, pointer, dimension(:,:,:) :: diag_ext3 => null(), diag_ext4 => null()
   real, pointer, dimension(:,:,:) :: diag_ext5 => null(), diag_ext6 => null()
 
+  real, pointer, dimension(:,:,:) :: uadv_3D => null(), vadv_3D => null()
+
+  real, pointer, dimension(:,:,:) :: wadv_3D => null(), udiff_3D => null()
+
+  real, pointer, dimension(:,:,:) :: vdiff_3D => null(), wdiff_3D => null()
+
   real, pointer, dimension(:,:,:,:) :: temp_read => null(), salt_read => null()
 
   real, pointer, dimension(:,:,:) :: we => null(), wd => null(), we_mld => null()
@@ -131,6 +137,10 @@ module size_mod
         allocate ( diag_ext1(isc:iec,jsc:jec,kmaxMYM), diag_ext2(isc:iec,jsc:jec,kmaxMYM) )
         allocate ( diag_ext3(isc:iec,jsc:jec,kmaxMYM), diag_ext4(isc:iec,jsc:jec,kmaxMYM) )
         allocate ( diag_ext5(isc:iec,jsc:jec,kmaxMYM), diag_ext6(isc:iec,jsc:jec,kmaxMYM) )
+        allocate ( uadv_3D(isc:iec,jsc:jec,kmaxMYM), vadv_3D(isc:iec,jsc:jec,kmaxMYM) )
+        allocate ( wadv_3D(isc:iec,jsc:jec,kmaxMYM), udiff_3D(isc:iec,jsc:jec,kmaxMYM) )
+        allocate ( vdiff_3D(isc:iec,jsc:jec,kmaxMYM), wdiff_3D(isc:iec,jsc:jec,kmaxMYM) )
+
 
         allocate ( temp_read(isc:iec,jsc:jec,kclim,lm) )
         allocate ( salt_read(isc:iec,jsc:jec,kclim,lm) )

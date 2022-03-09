@@ -12,6 +12,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
             use size_mod, only : salt_read, SHCoeff, SMCoeff, temp_read, month
             use size_mod, only : diag_ext1, diag_ext2, diag_ext3
             use size_mod, only : diag_ext4, diag_ext5, diag_ext6
+	    use size_mod, only : wadv_3D, wdiff_3D
             use size_mod, only : rmld_misc, mld_mld, imt, jmt
             use size_mod, only : isc, iec, jsc, jec
             use param_mod, only : day2sec, diffuse_my, diffuse_tr, dt, dtts
@@ -26,7 +27,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         real uvelin(51), vvelin(51), we_profin(0:52)
         real sswin(51)
         real SM(51), SH(51), YQ(51)
-        real tauxin, tauyin, entr_flux(51)
+        real tauxin, tauyin, entr_flux(51), wdiff_flux(51)
         real diag1(51), diag2(51), diag3(51)
         real diag4(51), diag5(51), diag6(51)
         real tx, ty, Lv, pme_eps
@@ -136,7 +137,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          call MT1 (tempin, saltin, uvelin, vvelin, tauxin,
      &    tauyin, qnet_in, sswin, pme_in,
      &    rLATin, dt, SM, SH, we_profin, we_baro, icval, YQ, entr_flux,
-     &    speed, pme_eps, rvr_runoff,
+     &    wdiff_flux, speed, pme_eps, rvr_runoff,
      &    diag1, diag2, diag3, diag4, diag5, diag6,ii,jj)
           
          do kk = 1,kmax
@@ -201,6 +202,8 @@ c         if (i .ge. imt-widE+1) pvort(i,2,j) = (widE+i-imt)/widE
          diag_ext4(i,j,kk) = diag4(kk) * rkmh(i,j)
          diag_ext5(i,j,kk) = diag5(kk) * rkmh(i,j)
          diag_ext6(i,j,kk) = diag6(kk) * rkmh(i,j)
+	 wadv_3D(i,j,kk) = entr_flux(kk) * rkmh(i,j)
+	 wdiff_3D(i,j,kk) = wdiff_flux(kk) * rkmh(i,j)
          enddo
 #endif
 

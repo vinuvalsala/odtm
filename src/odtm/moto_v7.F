@@ -7,7 +7,7 @@
 
         SUBROUTINE MT1 (tempin, saltin, uvelin, vvelin, tauxin,tauyin, 
      &     qnet, sswin, pmein, rLATin,dt_rg,SM,SH,we_prof, we_baro, icval,R,
-     &     entr_flux, speed, pme_eps, rvr_runoff,
+     &     entr_flux, wdiff_flux, speed, pme_eps, rvr_runoff,
      &     diag1, diag2, diag3, diag4, diag5, diag6,ii,jj)
 
  
@@ -27,7 +27,7 @@
         real :: dq, mf, qf, cp, h, ds, pme_eps
         integer :: nloop
         integer ic(2)
-        real :: uvloop(51), entr_flux(51)
+        real :: uvloop(51), entr_flux(51), wdiff_flux(51)
         real :: diag1(51), diag2(51), diag3(51)
         real :: diag4(51), diag5(51), diag6(51)
         integer :: ii, jj 
@@ -76,6 +76,7 @@
    10 CONTINUE
 
         entr_flux(:) = 0.0
+        wdiff_flux(:) = 0.0
 
       DO 11 M=1,NAZ1
    11 Z(M)=DZ*(1-M)-Z0
@@ -283,7 +284,7 @@
         UN(M) = UN(M) - we_prof(M) * (U1(M-1) - U1(M+1))*DT/DZ2
         VN(M) = VN(M) - we_prof(M) * (V1(M-1) - V1(M+1))*DT/DZ2
         entr_flux(M) = entr_flux(M) + we_prof(M) * (SA1(M-1) -
-     &                 SA1(M+1))*DT/DZ2
+     &                 SA1(M+1))/DZ2
    60 CONTINUE
       DO 61 M=2,NAZ-1
         TEN(M) = TEN(M) - (we_baro*TE1(M-1) - we_baro*TE1(M+1))*DT/DZ2
@@ -328,6 +329,10 @@
         TEN(M)=TEN(M) + (sswin(M)-sswin(M+1)) * DT/(RO*cp*DZ)
         ENDDO
 
+	DO M=2,NAZ-1
+        wdiff_flux(M) = wdiff_flux(M) +
+     &  ( SH(M)*(SA1(M-1)-SA1(M))/DZ - SH(M+1)*(SA1(M)-SA1(M+1))/DZ )/DZ
+	ENDDO
         call implicit_vmix (SM, DZ, DT, NAZ1, UN, UN)
         call implicit_vmix (SM, DZ, DT, NAZ1, VN, VN)
         call implicit_vmix (SH, DZ, DT, NAZ1, TEN, TEN)
@@ -372,7 +377,8 @@
         saltin(M) = SAN(M)
         uvelin(M) = UN(M)
         vvelin(M) = VN(M)
-        entr_flux(M) = entr_flux(M) /nloop
+        entr_flux(M) = entr_flux(M)*-1.0 /nloop
+        wdiff_flux(M) = wdiff_flux(M) /nloop
         ENDDO
 
         RETURN

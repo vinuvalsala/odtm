@@ -20,6 +20,7 @@
         use size_mod, only : rkmv, h, nn, temp, rkmu, rkmv
         use size_mod, only : salt, uvel, vvel, rdx, rdxh, rdy, rdyh
         use size_mod, only : temp_read, salt_read, month, theta, kmaxMYM
+	use size_mod, only : uadv_3D, vadv_3D
         use param_mod, only : day2sec, dt, sec2day, rad2deg
 
         implicit none
@@ -173,6 +174,8 @@
      &        ( sum_2pt_mld (2,i,jp,i,j,k)/
      &        sum_2pt_mld (12,i,jp,i,j,k) ) * rdyh(i,j)
 
+	if (nt .eq. 2) uadv_3D(i,j,kk) = tracedubdxmld(kk,nt) * -1.0
+	if (nt .eq. 2) vadv_3D(i,j,kk) = tracedvbdymld(kk,nt) * -1.0
         enddo
 
         call tsuv_diffuse (i,j,kk,diffuse_temp,diffuse_salt)
@@ -294,7 +297,7 @@
 	end function sum_2pt_mld
 
         subroutine tsuv_diffuse (ii,jj,kk, diffuse_temp, diffuse_salt)
-            use size_mod, only : temp, rdxu, rkmh, rdy, rdyv, salt, rdxh, rdyh
+            use size_mod, only : temp, rdxu, rkmh, rdy, rdyv, salt, rdxh, rdyh, udiff_3D, vdiff_3D
         implicit none
 
         integer :: ii, jj, kk
@@ -336,6 +339,9 @@
         rtemp6 = (rtemp4 - rtemp5)*rdyh(ii,jj)
 
         diffuse_salt = rtemp3 + rtemp6
+
+	udiff_3D(ii,jj,kk) = rtemp3
+	vdiff_3D(ii,jj,kk) = rtemp6
 !        if (rtemp3 .eq. 0.0 .or. rtemp6 .eq. 0.0) diffuse_salt = 0.0 !Prajeesh 
 
         return

@@ -15,8 +15,8 @@ program main
         imt, jmt, km, gdx, gdy, kmaxMYM, dz, nn, lm, gdxb, gdyb, t, eta, u, v, temp, h, pvort, salt, &
         dxu, dyv, omask, uvel, vvel, smcoeff, SHCoeff, diag_ext1, diag_ext2, diag_ext3, diag_ext4, &
         diag_ext5, diag_ext6, sphm, uwnd, vwnd, airt, ssw, sfc, vfc, cld, pme, chl, rvr, taux_force, tauy_force, &
-        init_size, denss, rmld_misc, rdx, rdy, rkmt, we_upwel, wd, we, pme_corr, temp_read, salt_read, mask
-
+        init_size, denss, rmld_misc, rdx, rdy, rkmt, we_upwel, wd, we, pme_corr, temp_read, salt_read, mask,  &
+	uadv_3D, vadv_3D, wadv_3D, udiff_3D, vdiff_3D, wdiff_3D
     use param_mod, only : day2sec, dpm, dt, dtts, dyd, loop_day, loop_total, nmid, rnmid, sum_adv, deg2rad
     
     use momentum_mod, only : momentum
@@ -67,7 +67,7 @@ program main
     integer :: id_temp_mld, id_salt_mld, id_u_mld, id_v_mld, id_diag, id_sh, id_sm
     integer :: id_mld, id_tke, id_rif, id_mlen, id_st_h, id_st_m, id_pme
     integer :: id_sphm, id_uwnd, id_vwnd, id_ssw, id_sfc, id_vfc, id_cld, id_chl, id_rvr
-
+    integer :: id_uadv, id_vadv, id_wadv, id_udiff, id_vdiff, id_wdiff 
     integer :: init_clk, main_clk, clinic_clk, mld_clk, filter_clk, couple_clk
 
     type(domain2d) :: domain
@@ -549,6 +549,24 @@ program main
         id_st_h = register_diag_field('odtm', 'st_h', (/id_lon,id_lat,id_depth_mld/), init_time=Time, &
                  long_name='?', units='?',missing_value=FILL_VALUE)
 
+        id_uadv = register_diag_field('odtm', 'u_adv', (/id_lon,id_lat,id_depth_mld/), init_time=Time, &
+                 long_name='c s-1', units='?',missing_value=FILL_VALUE)
+
+        id_vadv = register_diag_field('odtm', 'v_adv', (/id_lon,id_lat,id_depth_mld/), init_time=Time, &
+                 long_name='c s-1', units='?',missing_value=FILL_VALUE)
+
+        id_wadv = register_diag_field('odtm', 'w_adv', (/id_lon,id_lat,id_depth_mld/), init_time=Time, &
+                 long_name='c s-1', units='?',missing_value=FILL_VALUE)
+
+        id_udiff = register_diag_field('odtm', 'u_diff', (/id_lon,id_lat,id_depth_mld/), init_time=Time, &
+                 long_name='c s-1', units='?',missing_value=FILL_VALUE)
+
+        id_vdiff = register_diag_field('odtm', 'v_diff', (/id_lon,id_lat,id_depth_mld/), init_time=Time, &
+                 long_name='c s-1', units='?',missing_value=FILL_VALUE)
+
+        id_wdiff = register_diag_field('odtm', 'w_diff', (/id_lon,id_lat,id_depth_mld/), init_time=Time, &
+                 long_name='c s-1', units='?',missing_value=FILL_VALUE)
+
         id_st_m = register_diag_field('odtm', 'st_m', (/id_lon,id_lat,id_depth_mld/), init_time=Time, &
                  long_name='?', units='?',missing_value=FILL_VALUE)
 
@@ -614,6 +632,18 @@ program main
         used = send_data(id_mlen,diag_ext3,time, mask=lmask3m)
 
         used = send_data(id_st_h,diag_ext4,time, mask=lmask3m)
+
+        used = send_data(id_uadv,uadv_3D,time, mask=lmask3m)
+
+        used = send_data(id_vadv,vadv_3D,time, mask=lmask3m)
+
+        used = send_data(id_wadv,wadv_3D,time, mask=lmask3m)
+
+        used = send_data(id_udiff,udiff_3D,time, mask=lmask3m)
+
+        used = send_data(id_vdiff,vdiff_3D,time, mask=lmask3m)
+
+        used = send_data(id_wdiff,wdiff_3D,time, mask=lmask3m)
 
         used = send_data(id_st_m,diag_ext5,time, mask=lmask3m)
 
